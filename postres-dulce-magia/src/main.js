@@ -1,7 +1,7 @@
 // Countdown Timer
 function initCountdown() {
   // Set a countdown of 6 hours from now
-  const targetTime = new Date().getTime() + 6 * 60 * 60 * 1000;
+  const targetTime = new Date().getTime() + 96 * 60 * 60 * 1000;
 
   function updateCountdown() {
     const now = new Date().getTime();
@@ -399,10 +399,62 @@ function initSmoothScroll() {
   });
 }
 
+// Mobile Menu Toggle
+function initMobileMenu() {
+  const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+  const navLinks = document.querySelector('.nav-links');
+  const navLinksItems = document.querySelectorAll('.nav-links a');
+
+  if (!mobileMenuBtn || !navLinks) return;
+
+  // Toggle menu al hacer click en el botón
+  mobileMenuBtn.addEventListener('click', () => {
+    mobileMenuBtn.classList.toggle('active');
+    navLinks.classList.toggle('active');
+    
+    // Prevenir scroll cuando el menú está abierto (solo en móvil)
+    if (navLinks.classList.contains('active')) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  });
+
+  // Cerrar menú al hacer click en un link
+  navLinksItems.forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenuBtn.classList.remove('active');
+      navLinks.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // Cerrar menú al hacer click fuera
+  document.addEventListener('click', (e) => {
+    if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+      mobileMenuBtn.classList.remove('active');
+      navLinks.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+
+  // Cerrar menú al redimensionar la ventana (si se cambia a desktop)
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+      mobileMenuBtn.classList.remove('active');
+      navLinks.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+}
+
+
 // Initialize all functionality when DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
   initCountdown();
   initFAQ();
   initTestimonialSlider();
   initSmoothScroll();
+  initMobileMenu();  // ← DEBE ESTAR AQUÍ
 });
+

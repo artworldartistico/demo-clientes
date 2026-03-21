@@ -1204,3 +1204,27 @@ a {
     padding: 10px;
   }
 }
+
+/* Solución para navbar sticky que tapa títulos */
+section {
+  scroll-margin-top: 50px;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 50px;
+}
+
+/* Desktop */
+@media (min-width: 769px) {
+  section {
+    scroll-margin-top: 50px;
+  }
+}
+
+/* Móvil */
+@media (max-width: 768px) {
+  section {
+    scroll-margin-top: 50px;
+  }
+}

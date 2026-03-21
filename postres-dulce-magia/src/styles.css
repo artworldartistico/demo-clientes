@@ -1225,6 +1225,6 @@ html {
 /* Móvil */
 @media (max-width: 768px) {
   section {
-    scroll-margin-top: 50px;
+    scroll-margin-top: 40px;
   }
 }

@@ -7,7 +7,7 @@ function initCountdown() {
   // Formato: Año, Mes (0-11), Día, Hora (24h), Minuto, Segundo
   
   // OPCIÓN 1: Fecha límite específica (RECOMENDADO)
-  const fechaLimite = new Date(2026, 1, 25, 16, 59, 59); // 28 de Febrero 2026, 23:59:59
+  const fechaLimite = new Date(2026, 4, 25, 16, 59, 59); // 28 de Febrero 2026, 23:59:59
   
   // OPCIÓN 2: O puedes usar 48 horas desde una fecha específica
   // const fechaInicio = new Date(2026, 1, 20, 12, 0, 0); // 20 de Febrero 2026, 12:00:00

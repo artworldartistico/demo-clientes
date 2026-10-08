@@ -573,27 +573,27 @@ ul {
 
 /* Placeholders for solution images */
 .bg-img-1 {
-    background-image: url('/img/soluciones/shuttle-systems.jpeg');
+    background-image: url('/img/soluciones/shuttle-systems.png');
 }
 
 .bg-img-2 {
-    background-image: url('/img/soluciones/miniload.jpeg');
+    background-image: url('/img/soluciones/miniload.png');
 }
 
 .bg-img-3 {
-    background-image: url('/img/soluciones/pallet-ASRS.jpeg');
+    background-image: url('/img/soluciones/pallet-ASRS.png');
 }
 
 .bg-img-4 {
-    background-image: url('/img/soluciones/integracion-completa.jpeg');
+    background-image: url('/img/soluciones/integracion-completa.png');
 }
 
 .bg-img-5 {
-    background-image: url('/img/soluciones/control-inteligente.jpeg');
+    background-image: url('/img/soluciones/control-inteligente.png');
 }
 
 .bg-img-6 {
-    background-image: url('/img/soluciones/digital-twin.jpeg');
+    background-image: url('/img/soluciones/digital-twin.png');
 }
 
 .card-content {
@@ -720,6 +720,184 @@ ul {
 .faq-content p {
     padding-bottom: 25px;
     color: var(--text-secondary);
+}
+
+/* --- MARCAS / CLIENTES SECTION --- */
+.brands-section {
+    padding: 100px 0 90px;
+    background-color: var(--bg-darker);
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--border-color);
+}
+
+.brands-header {
+    max-width: 820px;
+    margin: 0 auto 50px;
+}
+
+.brands-header .section-title {
+    font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+}
+
+.brands-subtitle {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    margin: 0 auto;
+}
+
+.brands-subtitle strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.brands-slider-wrapper {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 15px 0;
+}
+
+.brands-gradient {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 140px;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.brands-gradient-left {
+    left: 0;
+    background: linear-gradient(to right, var(--bg-darker) 0%, rgba(8, 10, 15, 0) 100%);
+}
+
+.brands-gradient-right {
+    right: 0;
+    background: linear-gradient(to left, var(--bg-darker) 0%, rgba(8, 10, 15, 0) 100%);
+}
+
+.brands-track {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: max-content;
+    will-change: transform;
+    animation: brandsMarquee 32s linear infinite;
+}
+
+.brands-slider-wrapper:hover .brands-track {
+    animation-play-state: paused;
+}
+
+.brand-item {
+    flex: 0 0 220px;
+    height: 110px;
+    background-color: #f5f6f8;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 22px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth), border-color var(--transition-smooth);
+    user-select: none;
+}
+
+.brand-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(114, 191, 68, 0.2);
+    border-color: var(--accent-green);
+}
+
+.brand-logo {
+    max-width: 100%;
+    max-height: 55px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(10%);
+    opacity: 0.92;
+    transition: filter var(--transition-fast), opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.brand-item:hover .brand-logo {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+@keyframes brandsMarquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-100% / 3));
+    }
+}
+
+/* Responsiveness for Brands Section */
+@media (max-width: 992px) {
+    .brands-section {
+        padding: 80px 0 70px;
+    }
+
+    .brands-gradient {
+        width: 90px;
+    }
+
+    .brand-item {
+        flex: 0 0 190px;
+        height: 100px;
+        padding: 14px 18px;
+    }
+
+    .brand-logo {
+        max-height: 48px;
+    }
+
+    .brands-track {
+        gap: 16px;
+        animation-duration: 26s;
+    }
+}
+
+@media (max-width: 768px) {
+    .brands-section {
+        padding: 60px 0 50px;
+    }
+
+    .brands-header {
+        margin-bottom: 35px;
+        padding: 0 10px;
+    }
+
+    .brands-subtitle {
+        font-size: 0.95rem;
+    }
+
+    .brands-gradient {
+        width: 45px;
+    }
+
+    .brand-item {
+        flex: 0 0 160px;
+        height: 88px;
+        padding: 12px 15px;
+    }
+
+    .brand-logo {
+        max-height: 40px;
+    }
+
+    .brands-track {
+        gap: 14px;
+        animation-duration: 22s;
+    }
 }
 
 /* --- CONTACT SECTION --- */

@@ -573,27 +573,39 @@ ul {
 
 /* Placeholders for solution images */
 .bg-img-1 {
-    background-image: url('https://artworldartistico.github.io/demo-clientes/link/img/soluciones/shuttle-systems.png');
+    background-image: url('/img/soluciones/shuttle-systems.png');
 }
 
 .bg-img-2 {
-    background-image: url('https://artworldartistico.github.io/demo-clientes/link/img/soluciones/miniload.png');
+    background-image: url('/img/industrias/sistemas-asrs-mini-load.jpg');
 }
 
 .bg-img-3 {
-    background-image: url('https://artworldartistico.github.io/demo-clientes/link/img/soluciones/pallet-ASRS.png');
+    background-image: url('/img/soluciones/pallet-ASRS.png');
 }
 
 .bg-img-4 {
-    background-image: url('https://artworldartistico.github.io/demo-clientes/link/img/soluciones/integracion-completa.png');
+    background-image: url('/img/soluciones/integracion-completa.png');
 }
 
 .bg-img-5 {
-    background-image: url('https://artworldartistico.github.io/demo-clientes/link/img/soluciones/control-inteligente.png');
+    background-image: url('/img/industrias/picking-de-alta-precision.jpg');
 }
 
 .bg-img-6 {
-    background-image: url('https://artworldartistico.github.io/demo-clientes/link/img/soluciones/digital-twin.png');
+    background-image: url('/img/industrias/WMS-WCS-MES.jpg');
+}
+
+.bg-img-7 {
+    background-image: url('/img/industrias/sorter-y-transportadores.jpg');
+}
+
+.bg-img-8 {
+    background-image: url('/img/soluciones/mini-sorter.jpeg');
+}
+
+.bg-img-9 {
+    background-image: url('/img/industrias/AGV-AMR.jpg');
 }
 
 .card-content {
@@ -835,6 +847,7 @@ ul {
     0% {
         transform: translateX(0);
     }
+
     100% {
         transform: translateX(calc(-100% / 3));
     }
@@ -1028,6 +1041,247 @@ ul {
     padding-top: 30px;
     border-top: 1px solid var(--border-color);
     font-size: 0.9rem;
+}
+
+/* =====================================================
+   INDUSTRY TABS BAR
+   ===================================================== */
+.industry-tabs-bar {
+    position: sticky;
+    top: 70px;
+    /* sits just below the fixed header */
+    z-index: 900;
+    background-color: rgba(8, 10, 15, 0.97);
+    border-bottom: 1px solid var(--border-color);
+    backdrop-filter: blur(12px);
+    padding: 0;
+    /* Horizontal scroll on mobile */
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.industry-tabs-bar::-webkit-scrollbar {
+    display: none;
+    /* Chrome/Safari */
+}
+
+.industry-tabs-inner {
+    display: flex;
+    align-items: stretch;
+    width: max-content;
+    min-width: 100%;
+    padding: 0 1rem;
+    gap: 0;
+}
+
+.industry-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 22px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: var(--text-secondary);
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
+    position: relative;
+}
+
+.industry-tab-btn i {
+    font-size: 1.15rem;
+    flex-shrink: 0;
+}
+
+.industry-tab-btn:hover {
+    color: var(--text-primary);
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.industry-tab-btn.active {
+    color: var(--accent-green);
+    border-bottom-color: var(--accent-green);
+    background-color: rgba(114, 191, 68, 0.06);
+}
+
+/* =====================================================
+   INDUSTRY PANELS (Tabs Content)
+   ===================================================== */
+.industry-panels-wrapper {
+    min-height: 200px;
+}
+
+.industry-panel {
+    display: none;
+    opacity: 0;
+}
+
+.industry-panel.panel-visible {
+    display: block;
+    animation: industryFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.industry-panel.panel-hidden {
+    display: none;
+    opacity: 0;
+}
+
+@keyframes industryFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Industry section hero area (label + title + description) */
+.industry-hero {
+    padding: 80px 0 50px;
+    background-color: var(--bg-dark);
+    background-image:
+        linear-gradient(90deg, rgba(8, 10, 15, 0.98) 0%, rgba(8, 10, 15, 0.92) 45%, rgba(8, 10, 15, 0.55) 100%);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.industry-hero-inner {
+    position: relative;
+    z-index: 1;
+}
+
+.industry-label {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.industry-title {
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.05;
+    margin-bottom: 1.2rem;
+}
+
+.industry-title .text-accent {
+    display: block;
+}
+
+.industry-description {
+    font-size: 1.1rem;
+    max-width: 620px;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+}
+
+/* =====================================================
+   INDUSTRY SECTION — shared with .solutions-section
+   ===================================================== */
+.industry-section {
+    padding-bottom: var(--section-padding);
+    background-color: var(--bg-dark);
+    padding-top: 0;
+}
+
+/* bg image variant for the hero stripe */
+.industry-panel[data-industry-id="electronica"] .industry-hero {
+    background-image:
+        linear-gradient(90deg, rgba(8, 10, 15, 1) 0%, rgba(8, 10, 15, 0.88) 50%, rgba(8, 10, 15, 0.35) 100%),
+        url('/img/industrias/electronica-y-tecnologia-link.png');
+}
+
+.industry-panel[data-industry-id="manufactura"] .industry-hero {
+    background-image:
+        linear-gradient(90deg, rgba(8, 10, 15, 1) 0%, rgba(8, 10, 15, 0.88) 50%, rgba(8, 10, 15, 0.35) 100%),
+        url('/img/industrias/industria-de-manufactura-link.png');
+}
+
+.industry-panel[data-industry-id="pymes"] .industry-hero {
+    background-image:
+        linear-gradient(90deg, rgba(8, 10, 15, 1) 0%, rgba(8, 10, 15, 0.88) 50%, rgba(8, 10, 15, 0.35) 100%),
+        url('/img/industrias/pymes-link.png');
+}
+
+.industry-panel[data-industry-id="retail"] .industry-hero {
+    background-image:
+        linear-gradient(90deg, rgba(8, 10, 15, 1) 0%, rgba(8, 10, 15, 0.88) 50%, rgba(8, 10, 15, 0.35) 100%),
+        url('/img/industrias/retail-e-ecommerce-link.png');
+}
+
+.industry-panel[data-industry-id="plasticos"] .industry-hero {
+    background-image:
+        linear-gradient(90deg, rgba(8, 10, 15, 1) 0%, rgba(8, 10, 15, 0.88) 50%, rgba(8, 10, 15, 0.35) 100%),
+        url('/img/industrias/plasticos-y-empaques-link.png');
+}
+
+.industry-panel[data-industry-id="ferreteria"] .industry-hero {
+    background-image:
+        linear-gradient(90deg, rgba(8, 10, 15, 1) 0%, rgba(8, 10, 15, 0.88) 50%, rgba(8, 10, 15, 0.35) 100%),
+        url('/img/industrias/ferreteria-y-materiales-de-construccion.jpg');
+}
+
+.industry-panel[data-industry-id="salud"] .industry-hero {
+    background-image:
+        linear-gradient(90deg, rgba(8, 10, 15, 1) 0%, rgba(8, 10, 15, 0.88) 50%, rgba(8, 10, 15, 0.35) 100%),
+        url('/img/industrias/hospitales-y-centros-de-salud.jpg');
+}
+
+.industry-panel[data-industry-id="alimentos"] .industry-hero {
+    background-image:
+        linear-gradient(90deg, rgba(8, 10, 15, 1) 0%, rgba(8, 10, 15, 0.88) 50%, rgba(8, 10, 15, 0.35) 100%),
+        url('/img/industrias/industria-de-alimentos-y-bebidas.jpg');
+}
+
+/* =====================================================
+   RESPONSIVE – Tabs Bar
+   ===================================================== */
+@media (max-width: 1023px) {
+    .industry-tabs-bar {
+        top: 62px;
+    }
+
+    .industry-tab-btn {
+        padding: 14px 16px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .industry-tabs-bar {
+        top: 58px;
+    }
+
+    .industry-tab-btn {
+        padding: 12px 14px;
+        font-size: 0.8rem;
+    }
+
+    .industry-hero {
+        padding: 60px 0 40px;
+    }
+
+    .industry-title {
+        font-size: clamp(2.2rem, 8vw, 3rem);
+    }
 }
 
 /* --- RESPONSIVE DESIGN --- */

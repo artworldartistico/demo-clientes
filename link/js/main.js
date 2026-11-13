@@ -87,56 +87,79 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 4. Scrollspy & Smooth Scrolling for Nav Links ---
+    // --- 4. Navigation: Internal Page Detection vs Scrollspy ---
     const headerEl = document.getElementById('main-header');
-    const navLinks = document.querySelectorAll('.main-nav a[href^="#"]');
-    const sections = Array.from(document.querySelectorAll('section[id], footer[id]'));
+    const pathname = window.location.pathname;
+    const currentPage = pathname.split('/').pop().toLowerCase();
+    const isHomePage = !currentPage || currentPage === 'index.html' || currentPage === 'index.php';
 
-    const updateScrollspy = () => {
-        const headerHeight = headerEl ? headerEl.offsetHeight : 80;
-        const scrollPosition = window.scrollY + headerHeight + 50;
-
-        let currentSectionId = '';
-
-        // Detect if at the bottom of the page
-        const isBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 60);
-
-        if (isBottom) {
-            const lastSection = sections[sections.length - 1];
-            if (lastSection) {
-                currentSectionId = lastSection.getAttribute('id');
-            }
-        } else {
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.offsetHeight;
-                const sectionId = section.getAttribute('id');
-
-                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                    currentSectionId = sectionId;
-                }
-            });
-        }
-
-        navLinks.forEach(link => {
+    if (!isHomePage) {
+        // En páginas internas (industrias.html, soluciones.html, nosotros.html, etc.):
+        // Asignar y mantener fija la clase .active en el enlace del menú correspondiente
+        const allNavLinks = document.querySelectorAll('.main-nav a');
+        allNavLinks.forEach(link => {
             const href = link.getAttribute('href');
-            // If the section is 'contacto' or doesn't map to a main-nav link, remove active from all
-            if (currentSectionId && currentSectionId !== 'contacto' && href === `#${currentSectionId}`) {
+            if (!href) return;
+            const linkFile = href.split('#')[0].split('?')[0].split('/').pop().toLowerCase();
+            if (linkFile === currentPage) {
                 link.classList.add('active');
             } else {
                 link.classList.remove('active');
             }
         });
-    };
+        // NOTA: No se inicializa ni se añade el listener del Scrollspy en páginas internas,
+        // evitando que se borre el estado .active al cargar o hacer scroll.
+    } else {
+        // Únicamente en index.html o / (One Page): activar Scrollspy por anclas (#)
+        const navLinks = document.querySelectorAll('.main-nav a[href^="#"]');
+        const sections = Array.from(document.querySelectorAll('section[id], footer[id]'));
 
-    window.addEventListener('scroll', () => {
-        requestAnimationFrame(updateScrollspy);
-    }, { passive: true });
+        const updateScrollspy = () => {
+            const headerHeight = headerEl ? headerEl.offsetHeight : 80;
+            const scrollPosition = window.scrollY + headerHeight + 50;
 
-    // Initial check
-    updateScrollspy();
+            let currentSectionId = '';
 
-    // Smooth Scrolling for anchor links
+            // Detect if at the bottom of the page
+            const isBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 60);
+
+            if (isBottom) {
+                const lastSection = sections[sections.length - 1];
+                if (lastSection) {
+                    currentSectionId = lastSection.getAttribute('id');
+                }
+            } else {
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    const sectionId = section.getAttribute('id');
+
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        currentSectionId = sectionId;
+                    }
+                });
+            }
+
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                // If the section is 'contacto' or doesn't map to a main-nav link, remove active from all
+                if (currentSectionId && currentSectionId !== 'contacto' && href === `#${currentSectionId}`) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', () => {
+            requestAnimationFrame(updateScrollspy);
+        }, { passive: true });
+
+        // Initial check on homepage
+        updateScrollspy();
+    }
+
+    // Smooth Scrolling for anchor links (e.g. #hero, #contacto)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
@@ -153,12 +176,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     behavior: 'smooth'
                 });
 
-                // Update active class immediately on click
-                if (this.closest('.main-nav') && targetId !== '#contacto') {
-                    navLinks.forEach(link => link.classList.remove('active'));
-                    this.classList.add('active');
-                } else if (targetId === '#contacto') {
-                    navLinks.forEach(link => link.classList.remove('active'));
+                // Solo actualizar .active en el menú si estamos en index.html
+                if (isHomePage) {
+                    const navLinks = document.querySelectorAll('.main-nav a[href^="#"]');
+                    if (this.closest('.main-nav') && targetId !== '#contacto') {
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        this.classList.add('active');
+                    } else if (targetId === '#contacto') {
+                        navLinks.forEach(link => link.classList.remove('active'));
+                    }
                 }
             }
         });
@@ -197,4 +223,78 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // =====================================================
+    // --- 6. Industry Tabs Switcher ---
+    // =====================================================
+    const industryTabsBar = document.querySelector('.industry-tabs-bar');
+    if (!industryTabsBar) return; // Only run on industrias.html
+
+    const tabBtns = document.querySelectorAll('.industry-tab-btn');
+    const industryPanels = document.querySelectorAll('.industry-panel');
+
+    /**
+     * Activates the tab and panel matching the given industryId.
+     * @param {string} industryId - e.g. 'electronica', 'manufactura'
+     * @param {boolean} scrollTop - whether to scroll to the tabs bar
+     */
+    const activateTab = (industryId, scrollTop = false) => {
+        // Update button states
+        tabBtns.forEach(btn => {
+            const isTarget = btn.dataset.industryTarget === industryId;
+            btn.classList.toggle('active', isTarget);
+            btn.setAttribute('aria-selected', isTarget ? 'true' : 'false');
+        });
+
+        // Show / hide panels with fade animation
+        industryPanels.forEach(panel => {
+            if (panel.dataset.industryId === industryId) {
+                panel.classList.remove('panel-hidden');
+                // Trigger reflow for animation restart
+                void panel.offsetWidth;
+                panel.classList.add('panel-visible');
+            } else {
+                panel.classList.remove('panel-visible');
+                panel.classList.add('panel-hidden');
+            }
+        });
+
+        // Scroll active tab button into view (horizontal) within the bar
+        const activeBtn = industryTabsBar.querySelector(`.industry-tab-btn[data-industry-target="${industryId}"]`);
+        if (activeBtn) {
+            activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+
+        // Optionally scroll to tabs bar top
+        if (scrollTop) {
+            const headerHeight = headerEl ? headerEl.offsetHeight : 80;
+            const barTop = industryTabsBar.getBoundingClientRect().top + window.pageYOffset - headerHeight - 10;
+            window.scrollTo({ top: barTop, behavior: 'smooth' });
+        }
+    };
+
+    // Click handlers for tab buttons
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const target = btn.dataset.industryTarget;
+            // Update URL hash without triggering a scroll
+            history.pushState(null, '', `#${target}`);
+            activateTab(target, false);
+        });
+    });
+
+    // Read hash from URL on load (or default to first)
+    const getHashTarget = () => {
+        const hash = window.location.hash.replace('#', '');
+        const validIds = Array.from(tabBtns).map(b => b.dataset.industryTarget);
+        return validIds.includes(hash) ? hash : (validIds[0] || 'electronica');
+    };
+
+    // Handle hash changes (back/forward navigation)
+    window.addEventListener('hashchange', () => {
+        activateTab(getHashTarget(), false);
+    });
+
+    // Initial activation
+    activateTab(getHashTarget(), false);
 });
